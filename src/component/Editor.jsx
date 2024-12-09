@@ -75,15 +75,15 @@ export default function Editor({ onCodeChangeCurrentCodeForNewJoin, previousCode
 
     
     //initialise or send data to the socket when new user comes( notify others)
-    // useEffect(()=>{
-    //     if( user.username && user.roomId){
-    //         socket.emit(JOIN , { name: user.username, roomId: user.roomId});
-    //     }
-    //     else{
-    //         navigate("/");
-    //     }
+    useEffect(()=>{
+        if( user.username && user.roomId){
+            socket.emit(JOIN , { name: user.username, roomId: user.roomId});
+        }
+        else{
+            navigate("/");
+        }
         
-    // },[]);
+    },[]);
 
 
     //code change
