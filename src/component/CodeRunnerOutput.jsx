@@ -6,7 +6,6 @@ export default function CodeRunnerOutput(){
 
     const dispatch = useDispatch();
     const {   responseOutput, isCodeRunLoading } = useSelector(state=>state.editor);
-    console.log(responseOutput);
     
       
     return(
@@ -14,7 +13,7 @@ export default function CodeRunnerOutput(){
             {
                 isCodeRunLoading
                 ?
-                (<div style={{border:"1px solid red",display:"flex", flexDirection:"column", justifyContent:"space-between", width:"100%",height:"100%"}}>
+                (<div style={{ display:"flex", flexDirection:"column", justifyContent:"space-between", width:"100%",height:"100%"}}>
                     <LinearProgress  sx={{
                                           height:"5px", 
                                           backgroundColor:"rgb(239, 236, 236)" ,
@@ -31,7 +30,11 @@ export default function CodeRunnerOutput(){
                                       }}/>
                 </div>)
                 :
-                (<div style={{border:"1px solid red"}}>
+                (<div>
+                {
+                    responseOutput
+                    ?
+                    (<>
                     {
                         responseOutput?.run?.stderr===""
                         ?
@@ -45,15 +48,15 @@ export default function CodeRunnerOutput(){
                             <Typography>=== Code Exited With Errors ===</Typography>
                         </div>)
                     }
+                    </>)
+                    :
+                    (<div>
+                        <Typography>=== Code Outputs !! ===</Typography>
+                    </div>)
                     
-                    
-                    
-                </div>)
+                }
+            </div>)
             }
-            <div>
-
-            </div>
-
         </div>
     )
 }
