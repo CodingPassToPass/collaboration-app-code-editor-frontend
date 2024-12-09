@@ -52,7 +52,6 @@ export default function Home(){
        async function backendCheck(){
         setIsLoading(true);
            const res = await axios.get(server);
-           console.log(res);
            setIsLoading(false);
            
        }

@@ -7,9 +7,9 @@ export default function CodeRunnerOutput(){
     const dispatch = useDispatch();
     const {   responseOutput, isCodeRunLoading } = useSelector(state=>state.editor);
     
-      
+      console.log(responseOutput);
     return(
-        <div style={{ position:"absolute", bottom:"0px", width:"100%", height:"30%", color:"white", background:"rgb(66, 71, 105)"}}>
+        <div style={{ position:"absolute", bottom:"0px", width:"100%", height:"30%", color:"white", background:"rgb(66, 71, 105)", overflow:"scroll"}}>
             {
                 isCodeRunLoading
                 ?
@@ -39,13 +39,13 @@ export default function CodeRunnerOutput(){
                         responseOutput?.run?.stderr===""
                         ?
                         (<div className="output">
-                            <Typography>{responseOutput?.run?.output}</Typography>
-                            <Typography>=== Code Execution Successful ===</Typography> 
+                            <Typography sx={{whiteSpace:"pre-wrap"}}>{responseOutput?.run?.output}</Typography>
+                            <Typography sx={{marginTop:"25px"}}>=== Code Execution Successful ===</Typography> 
                         </div>)
                         :
                         (<div>
-                            <Typography>{responseOutput?.run?.output}</Typography>
-                            <Typography>=== Code Exited With Errors ===</Typography>
+                            <Typography sx={{whiteSpace:"pre-wrap", color:"rgb(250, 93, 93)"}}>{responseOutput?.run?.output}</Typography>
+                            <Typography sx={{marginTop:"25px"}}>=== Code Exited With Errors ===</Typography>
                         </div>)
                     }
                     </>)
