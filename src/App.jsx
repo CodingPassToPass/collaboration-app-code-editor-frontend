@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import EditorPage from "./pages/EditorPage";
-import PlayGame from "./component/playGame";
+// import PlayGame from "./component/playGame";
 
 function App() {
   
