@@ -1,15 +1,98 @@
 import { LinearProgress, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CodeRunnerOutput(){
 
     const dispatch = useDispatch();
     const {   responseOutput, isCodeRunLoading } = useSelector(state=>state.editor);
-    
-      console.log(responseOutput);
+
+    //output resizer
+    const refTop = useRef(null);
+    const refOutputBox = useRef(null);
+
+    useEffect(()=>{
+
+        const OutputBox = refOutputBox.current;
+        let styles = OutputBox.style;
+        let height = parseInt(styles.height);
+        let y=0;
+        
+
+//-------------------------this events is for laptop or computers
+        const onMouseMoveTopResize = (e)=>{
+
+            let dy = e.clientY - y;
+            height = height - dy;
+            y = e.clientY;
+
+            if( height > 79 && e.screenY>300){
+                OutputBox.style.height = `${height}px`;
+            }
+            
+
+        }
+
+        const onMouseUpTopResize = (e)=>{
+            document.removeEventListener("mousemove", onMouseMoveTopResize);
+        }
+
+        const onMouseDownTopResize = (e)=>{
+
+        y = e.clientY;
+
+        document.addEventListener("mousemove", onMouseMoveTopResize);
+        document.addEventListener("mouseup", onMouseUpTopResize);
+
+        }
+
+
+        //-------------------------this event made for phone touch events 
+        const onTouchMoveTopResize = (e)=>{
+            let dy = e.changedTouches[0].clientY - y;
+            height = height - dy;
+            y = e.changedTouches[0].clientY;
+
+            if( height > 90 && e.changedTouches[0].screenY>300 && height < 400){
+                OutputBox.style.height = `${height}px`;
+            }
+            
+
+        }
+
+        const onTouchEndTopResize = (e)=>{
+            document.removeEventListener("touchmove", onTouchMoveTopResize);
+        }
+
+        const onTouchStartTopResize = (e)=>{
+
+        y = e.changedTouches[0].clientY;
+
+        document.addEventListener("touchmove", onTouchMoveTopResize);
+        document.addEventListener("touchend", onTouchEndTopResize);
+
+        }
+
+        //-----touch event 
+        const resizeTop = refTop.current;
+        resizeTop.addEventListener("mousedown", onMouseDownTopResize);
+        resizeTop.addEventListener( "touchstart", onTouchStartTopResize);
+
+
+        return ()=>{
+            resizeTop.removeEventListener("mousedown", onMouseDownTopResize);
+            resizeTop.removeEventListener( "touchstart", onTouchStartTopResize);
+
+            document.removeEventListener("mouseup", onMouseUpTopResize);
+            document.removeEventListener("touchend", onTouchEndTopResize);
+        }
+
+    },[]);
+
+
     return(
-        <div style={{ position:"absolute", bottom:"0px", width:"100%", height:"30%", color:"white", background:"rgb(66, 71, 105)", overflow:"scroll"}}>
+        <div ref ={refOutputBox} style={{ position:"absolute", bottom:"0px", width:"100%", height:"210px", color:"white", background:"rgb(66, 71, 105)", overflow:"scroll", zIndex:"3"}}>
+            <div ref={refTop} className="output-resizer"></div>
             {
                 isCodeRunLoading
                 ?
@@ -30,7 +113,7 @@ export default function CodeRunnerOutput(){
                                       }}/>
                 </div>)
                 :
-                (<div>
+                (<div style={{ padding:"25px 20px", boxSizing:"border-box"}}>
                 {
                     responseOutput
                     ?
@@ -39,11 +122,11 @@ export default function CodeRunnerOutput(){
                         responseOutput?.run?.stderr===""
                         ?
                         (<div className="output">
-                            <Typography sx={{whiteSpace:"pre-wrap"}}>{responseOutput?.run?.output}</Typography>
+                            <Typography sx={{whiteSpace:"pre-wrap", boxSizing:"border-box"}}>{responseOutput?.run?.output}</Typography>
                             <Typography sx={{marginTop:"25px"}}>=== Code Execution Successful ===</Typography> 
                         </div>)
                         :
-                        (<div>
+                        (<div className="error">
                             <Typography sx={{whiteSpace:"pre-wrap", color:"rgb(250, 93, 93)"}}>{responseOutput?.run?.output}</Typography>
                             <Typography sx={{marginTop:"25px"}}>=== Code Exited With Errors ===</Typography>
                         </div>)

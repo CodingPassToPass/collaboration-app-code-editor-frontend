@@ -38,7 +38,7 @@ export default function Editor({ onCodeChangeCurrentCodeForNewJoin, previousCode
         { value:"java", name:"Java", version:"15.0.2", language:"java", initialContent:`// Welcome to CodeUnity! \n// Type your code below, or paste existing code to get started.\n\n//hello.java\n\npublic class Hello {\n\t\tpublic static void main(String[] args) {\n\t\t\t\t// Print "Hello, World!"\n\t\t\t\tSystem.out.println("Hello, World!");\n\t\t}\n}`}, 
         { value:"cpp", name:"C++", version:"10.2.0", language:"c++", initialContent:`// Welcome to CodeUnity! \n// Type your code below, or paste existing code to get started.\n\n//hello.cpp\n\n#include <iostream>\n\nint main() {\n\t\t// Print "Hello, World!"\n\t\tstd::cout << "Hello, World!" << std::endl;\n\t\treturn 0;\n}`},
         { value:"c", name:"C", version:"10.2.0", language:"c", initialContent:`// Welcome to CodeUnity! \n// Type your code below, or paste existing code to get started.\n\n//hello.c\n\n#include <stdio.h>\n\nint main() {\n\t\t// Print "Hello, World!"\n\t\tprintf("Hello, World!");\n\t\treturn 0;\n}`},
-        { value:"csharp", name:"C#", version:"6.12.0", language:"csharp", initialContent:`// Welcome to CodeUnity! \n// Type your code below, or paste existing code to get started.\n\n//hello.cs\n\nusing System;\n\nclass Hello {\n\t\tstatic void main(String[] args) {\n\t\t\t\t// Print "Hello, World!"\n\t\t\t\tConsole.WriteLine("Hello, World!");\n\t\t}\n}`},
+        { value:"csharp", name:"C#", version:"6.12.0", language:"csharp", initialContent:`// Welcome to CodeUnity! \n// Type your code below, or paste existing code to get started.\n\n//hello.cs\n\nusing System;\n\nclass Hello {\n\t\tstatic void Main(String[] args) {\n\t\t\t\t// Print "Hello, World!"\n\t\t\t\tConsole.WriteLine("Hello, World!");\n\t\t}\n}`},
 
     ];
    
@@ -182,12 +182,12 @@ export default function Editor({ onCodeChangeCurrentCodeForNewJoin, previousCode
             <div style={{ height:"50px",zIndex:"3", width:"100%", display:"flex", justifyContent:"end", alignItems:"center"}}>
                 
                 {/* run code button */}
-                <Button onClick={handleCodeRun} sx={{ border:"6px solid red",backgroundColor: "rgb(31, 156, 150)", height:"35px", width:"86px", color:"rgb(2 21 69)", marginRight:"30px", border:"none", borderRadius:"5px", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0px 0px 10px 0px rgb(2 21 69)", "&:hover":{backgroundColor:"red", cursor:"pointer", backgroundColor:"black", color:"white", transition:"300ms all"}}} disabled={isCodeRunLoading}>
+                <Button onClick={handleCodeRun} sx={{ border:"6px solid red",backgroundColor: "rgb(31, 156, 150)", height:{xs:"35px",md:"40px"}, width:"86px", color:"rgb(2 21 69)", marginRight:{ xs:"20px",md:"30px"}, border:"none", borderRadius:"5px", display:"flex", alignItems:"center", justifyContent:"center", boxShadow:"0px 0px 10px 0px rgb(2 21 69)", "&:hover":{backgroundColor:"red", cursor:"pointer", backgroundColor:"black", color:"white", transition:"300ms all"}}} disabled={isCodeRunLoading}>
                         < PlayArrow /><Typography sx={{ fontSize:"18px", fontWeight:"500", cursor:"pointer", marginLeft:"3px"}}>Run</Typography>
                 </Button>
                 
                 {/* select button */}
-                <Select value={selectedLanguage} onChange={(e)=>{ setSelectedLanguage(e.target.value); setCode(languages.filter((lang)=>{return lang.value===e.target.value })[0].initialContent );   }} sx={{ boxShadow:"0px 0px 10px 0px rgb(2 21 69)", backgroundColor: "rgb(31, 156, 150)", height:"40px", width:"125px", fontWeight:"600", color:"rgb(2 21 69)", marginRight:"30px", border:"1px solid rgb(2 21 69)"}} MenuProps={{ PaperProps:{ sx: { backgroundColor:"rgb(60, 61, 55)"}}}} disabled={isCodeRunLoading}>
+                <Select value={selectedLanguage} onChange={(e)=>{ setSelectedLanguage(e.target.value); setCode(languages.filter((lang)=>{return lang.value===e.target.value })[0].initialContent );   }} sx={{ boxShadow:"0px 0px 10px 0px rgb(2 21 69)", backgroundColor: "rgb(31, 156, 150)", height:{xs:"35px",md:"40px"}, width:"125px", fontWeight:"600", color:"rgb(2 21 69)", marginRight:{xs:"10px",md:"30px"}, border:"1px solid rgb(2 21 69)"}} MenuProps={{ PaperProps:{ sx: { backgroundColor:"rgb(60, 61, 55)"}}}} disabled={isCodeRunLoading}>
                     {
                         languages.map((lang)=>{
                             return(

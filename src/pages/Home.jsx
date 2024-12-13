@@ -58,12 +58,40 @@ export default function Home(){
        backendCheck();
   },[]);
 
+
+  //progress
+
+  const [ progress, setProgress] = useState(0);
+
+  useEffect(()=>{
+
+    const interval = setInterval(()=>{
+      
+      setProgress((prevProg)=>{ return ( prevProg >= 99 ? 0 : prevProg+3)})
+
+    },1000);
+
+    const timeout = setTimeout(()=>{
+       clearInterval(interval);
+    },35000);
+    
+
+    return ()=>{
+      clearInterval(interval);
+      clearTimeout(timeout);
+    }
+  },[]);
+
     return(
         <div style={{width:"100vw", height:"100vh", display:"flex", justifyContent:"center", alignItems:"center", backgroundColor:"rgb(45, 50, 80)"}}>
           {
             loading
             ?
-            <CircularProgress/>
+            <div style={{ position:"relative", display:"flex", alignItems:"center", justifyContent:"center"}}> 
+              <CircularProgress size={60} sx={{animationDuration:"0.4s"}}/>
+              <div style={{ position:"absolute", color:"white", fontSize:"13px"}}>{progress}%</div>
+            </div>
+            
             :
             (<Box className="container" sx={{backgroundColor:"rgb(66, 71, 105)", borderRadius:"10px", width:{xs:"90%", sm:"60%",md:"50%", lg:"35%"}, padding:"17px", boxSizing:"border-box", display:"flex", flexDirection:"column",alignItems:"center", justifyContent:"center", boxShadow:"0px 0px 17px -10px black"}}>
                   

@@ -112,13 +112,13 @@ export default function EditorPage(){
             {
                 openDrawer
                 ?
-                (< Box sx={{ position:"fixed",top:"25px", right:"15px", display:{xs:"block",md:"none"}  }}>
+                (< Box sx={{ position:"fixed",top:"0px", left:"15px", display:{xs:"block",md:"none"}  }}>
                     <IconButton onClick={()=>{setOpenDrawer(false)}}>
                         <Close sx={{fontSize:"30px", color:"rgb(27, 233, 233)"}} />
                     </IconButton>
                 </Box>)
                 :
-                (<Box sx={{ position:"fixed",top:"25px", right:"15px", display:{xs:"block",md:"none"}  }}>
+                (<Box sx={{ position:"fixed",top:"0px", left:"15px", display:{xs:"block",md:"none"}  }}>
                     <IconButton onClick={()=>{setOpenDrawer(true)}}>
                         <Menu sx={{fontSize:"30px", color:"rgb(23, 233, 233)"}} />
                     </IconButton>
