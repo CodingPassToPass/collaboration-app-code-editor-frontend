@@ -1,6 +1,10 @@
 import { LinearProgress, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box} from "@mui/material";
+import zIndex from "@mui/material/styles/zIndex";
+import { setResponseOutput } from "../redux/features/Slices/editorSlice";
 
 export default function CodeRunnerOutput(){
 
@@ -91,14 +95,23 @@ export default function CodeRunnerOutput(){
 
 
     return(
-        <div ref ={refOutputBox} style={{ position:"absolute", bottom:"0px", width:"100%", height:"210px", color:"white", background:"rgb(66, 71, 105)", overflow:"scroll", zIndex:"3"}}>
+        <div ref ={refOutputBox} style={{ position:"absolute", bottom:"0px", width:"100%", height:"210px", color:"white", background:"rgb(66, 71, 105)", zIndex:"2", overflowY:"scroll"}}>
+            {/* resizer stick */}
             <div ref={refTop} className="output-resizer"></div>
+            {/* clear output */}
+            <Box className="bin-icon" onClick={()=>{ dispatch( setResponseOutput(""))}}>
+                <DeleteIcon sx={{fontSize:"24px"}} />
+                <Typography>Clear</Typography>
+            </Box>
+            {/* output shower */}
+            <div style={{ width:"100%", height:"100%", position:"relative", top:"0px"}}>
             {
                 isCodeRunLoading
                 ?
-                (<div style={{ display:"flex", flexDirection:"column", justifyContent:"space-between", width:"100%",height:"100%"}}>
+                (<div style={{ display:"flex", flexDirection:"column", justifyContent:"space-between", width:"100%",height:"100%", position:"relative"}}>
                     <LinearProgress  sx={{
                                           height:"5px", 
+                                          position:"relative",
                                           backgroundColor:"rgb(239, 236, 236)" ,
                                           '& .MuiLinearProgress-bar':{
                                               backgroundColor: "rgb(31, 156, 150)",
@@ -106,6 +119,8 @@ export default function CodeRunnerOutput(){
                                         }}/>
                     <LinearProgress  sx={{
                                           height:"6px", 
+                                          position:"relative",
+                                          bottom:"10px",
                                           backgroundColor:"rgb(239, 236, 236)" ,
                                           '& .MuiLinearProgress-bar':{
                                               backgroundColor: "rgb(31, 156, 150)",
@@ -140,6 +155,8 @@ export default function CodeRunnerOutput(){
                 }
             </div>)
             }
+            </div>
+            
         </div>
     )
 }
