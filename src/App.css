@@ -74,6 +74,8 @@ letter-spacing:1.2px;
 .copyRoomId{
   border: none;
   padding: 7px 0px;
+  position: relative;
+  z-index: 5;
   width:80%;
   border-radius: 8px;
   font-weight: 500;

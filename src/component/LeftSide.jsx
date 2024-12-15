@@ -53,7 +53,7 @@ export default function LeftSide(){
         </Box>
 
         {/* buttons */}
-        <div style={{width:"100%",height:"100px", display:"flex", flexDirection:"column", justifyContent:"center",alignItems:"center"}}>
+        <div style={{width:"100%",height:"100px", display:"flex", flexDirection:"column", justifyContent:"center",alignItems:"center", position:"relative", zIndex:"4"}}>
             <button className="copyRoomId" onClick={handleCopyRoomId}>Copy ROOM ID</button>
             <button className="leave" onClick={()=>{ dispatch( setIsLeaveGroup(true))}} disabled={isLeaveGroup}>Leave</button>
         </div>
