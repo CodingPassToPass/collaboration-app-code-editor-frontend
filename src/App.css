@@ -73,7 +73,7 @@ letter-spacing:1.2px;
 /* copy room button -------------------------------------------------- */
 .copyRoomId{
   border: none;
-  padding: 7px 0px;
+  height: 31px;
   position: relative;
   z-index: 5;
   width:80%;
