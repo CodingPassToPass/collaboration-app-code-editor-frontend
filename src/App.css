@@ -90,6 +90,8 @@ letter-spacing:1.2px;
 .leave{
   border:none;
   padding: 7px 0px;
+  position: relative;
+  z-index: 5;
   width:80%;
   margin-top: 14px;
   border-radius: 8px;
