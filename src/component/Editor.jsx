@@ -4,6 +4,9 @@ import { useState, useEffect, useRef, useCallback} from "react";
 import { Box, Select, MenuItem, Typography, backdropClasses, Button } from "@mui/material";
 import { Language, PlayArrow } from "@mui/icons-material";
 import CodeMirrorArea from "@uiw/react-codemirror";
+import { basicSetup } from "codemirror";
+import { EditorView, ViewUpdate} from "@codemirror/view";
+import { EditorSelection } from "@uiw/react-codemirror";
 import { solarizedDark} from "@uiw/codemirror-theme-solarized";
 import { javascript } from "@codemirror/lang-javascript";
 import { cpp} from "@codemirror/lang-cpp";
@@ -36,6 +39,8 @@ export default function Editor({ onCodeChangeCurrentCodeForNewJoin, previousCode
     const navigate = useNavigate(); 
     const [ selectedLanguage, setSelectedLanguage] = useState("javascript"); 
     const [ code, setCode] = useState(`// Welcome to CodeUnity! \n// Type your code below, or paste existing code to get started. \n\n// Print "Hello, World!" to the console \nconsole.log("Hello, World!");`);
+    // const CodeCursorPositionRef = useRef(null);
+    // const CodeComponentAreaRef = useRef(null);
 
     const languages = [ 
         { value:"javascript", name:"Javascript", version:"1.32.3", language:"javascript", initialContent:`// Welcome to CodeUity! \n// Type your code below, or paste existing code to get started. \n\n// Print "Hello, World!" to the console \nconsole.log("Hello, World!");`}, 
@@ -143,12 +148,14 @@ const CompletionSource = ( context)=>{
     
     //initialise or send data to the socket when new user comes( notify others)
     useEffect(()=>{
+
         if( user.username && user.roomId){
             socket.emit(JOIN , { name: user.username, roomId: user.roomId});
         }
         else{
             navigate("/");
         }
+
         
     },[]);
 
@@ -164,7 +171,13 @@ const CompletionSource = ( context)=>{
 
 
     //code change
-    const codeChange = ( text, e )=>{
+    const codeChange = ( text, e)=>{
+
+        // CodeCursorPositionRef.current = e.view.viewState.state.selection.ranges[0].from;
+        // CodeComponentAreaRef.current = e;
+
+        // e.view.dispatch( e.state.update({ selection: EditorSelection.single( Math.min(  e.view.viewState.state.selection.ranges[0].from, code.length ))}));
+        
         debouncedCodeChange(text,e);
     };
 
@@ -174,6 +187,7 @@ const CompletionSource = ( context)=>{
     return () => {
       debouncedCodeChange.cancel(); // cancel any pending debounced calls
     };
+
   }, [debouncedCodeChange]); 
 
 
@@ -192,7 +206,7 @@ const CompletionSource = ( context)=>{
     //when a single user comes first and we have to set the previous stored code data on that room-------------------
     const previousStoredCodeData = (data)=>{
 
-        if(data.previousStoredCode===undefined){
+        if(data.previousStoredCode===null){
             setCode(`// Welcome to CodeUnity! \n// Type your code below, or paste existing code to get started. \n\n// Print "Hello, World!" to the console \nconsole.log("Hello, World!");`);
         }
         else{
@@ -211,7 +225,18 @@ const CompletionSource = ( context)=>{
             return;
         }
 
-        setCode(data.code);
+        setCode((prevCode)=>data.code);
+
+        // if(CodeComponentAreaRef.current && CodeCursorPositionRef.current){
+        // if(CodeComponentAreaRef.current){
+
+        //     CodeComponentAreaRef.current.view.dispatch( CodeComponentAreaRef.current.state.update({ selection: EditorSelection.single(43)}));
+           
+        // }
+
+        
+
+
     };
 
     //when difference language is selected-----------------
@@ -270,7 +295,6 @@ const CompletionSource = ( context)=>{
     }
 
 
-
     return(
         <Box sx={{ height:"100%",boxSizing:"border-box", position:"relative", zIndex:"2"}}>
 
@@ -300,7 +324,7 @@ const CompletionSource = ( context)=>{
 
             {/* code writer */}
             <div style={{overflow:"scroll"}}>
-                <CodeMirrorArea onChange={codeChange} value={code}  theme={solarizedDark} className="editorArea" extensions={ getLanguageExtension()} >
+                <CodeMirrorArea onChange={codeChange} value={code}  theme={solarizedDark} className="editorArea" extensions={ [...getLanguageExtension(), basicSetup] } >
                 </CodeMirrorArea>
             </div>
                 

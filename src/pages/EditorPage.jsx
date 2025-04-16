@@ -23,7 +23,7 @@ export default function EditorPage(){
 
     const { user} = useSelector( state=>state.user);
 
-    //function for set current data , which is send when new user jjoin
+    //function for set current data , which is send when new user join
     const handleCurrentCodeForNewJoin=(data)=>{
         codeRef.current = data;
     }
